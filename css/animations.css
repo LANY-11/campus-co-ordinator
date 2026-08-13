@@ -1,0 +1,178 @@
+/* =========================================================================
+   Relay — animation + cursor extension
+   Loaded AFTER css/styles.css so it can enhance existing components.
+   Pure CSS hover/motion effects + styling for the custom cursor (js/cursor.js).
+   ========================================================================= */
+
+/* ---------- keyframes ---------- */
+@keyframes shimmer      { 0% { background-position: -180% 0; } 100% { background-position: 180% 0; } }
+@keyframes floatY       { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes ringPulse    { 0% { transform: translate(-50%,-50%) scale(1); opacity: .55; }
+                          100% { transform: translate(-50%,-50%) scale(1.9); opacity: 0; } }
+@keyframes rippleOut    { from { transform: scale(0); opacity: .45; } to { transform: scale(2.6); opacity: 0; } }
+@keyframes underlineIn  { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ---------- custom cursor ---------- */
+@media (hover: hover) and (pointer: fine) {
+  body.relay-cursor,
+  body.relay-cursor * { cursor: none !important; }
+
+  .relay-cursor-dot,
+  .relay-cursor-ring {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    pointer-events: none; border-radius: 50%;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+  .relay-cursor-dot {
+    width: 7px; height: 7px; background: var(--orange);
+    transition: width .18s ease, height .18s ease, background .18s ease;
+  }
+  .relay-cursor-ring {
+    width: 30px; height: 30px;
+    border: 1.5px solid color-mix(in srgb, var(--orange) 55%, transparent);
+    transition: width .22s ease, height .22s ease, border-color .22s ease, opacity .22s ease;
+  }
+  /* over anything clickable */
+  body.cursor-hot .relay-cursor-dot  { width: 10px; height: 10px; background: var(--blue); }
+  body.cursor-hot .relay-cursor-ring { width: 46px; height: 46px; border-color: var(--blue); }
+  /* over text inputs */
+  body.cursor-text .relay-cursor-dot  { width: 2px; height: 20px; border-radius: 2px; background: var(--ink); }
+  body.cursor-text .relay-cursor-ring { opacity: 0; }
+  /* mouse held down */
+  body.cursor-down .relay-cursor-ring { width: 22px; height: 22px; }
+}
+
+/* ---------- clickable affordances ---------- */
+button, .ticket, .demo-chip, .authtabs button, .user-row,
+.photo-actions .btn-ghost, .stat-card { cursor: pointer; }
+input, textarea, select { cursor: auto; }
+button:disabled, .authtabs button:disabled { cursor: not-allowed; opacity: .55; }
+
+/* ---------- buttons: lift + sheen + press ---------- */
+.btn-primary, .btn-blue, .btn-emerald, .btn-ghost {
+  position: relative; overflow: hidden;
+  transition: background .18s ease, transform .18s cubic-bezier(.2,.8,.2,1),
+              box-shadow .22s ease, border-color .18s ease, color .18s ease;
+}
+.btn-primary:hover, .btn-blue:hover, .btn-emerald:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--ink) 55%, transparent);
+}
+.btn-ghost:hover { transform: translateY(-1px); border-color: var(--blue); color: var(--blue-deep); }
+.btn-primary:active, .btn-blue:active, .btn-emerald:active, .btn-ghost:active {
+  transform: translateY(0) scale(.985);
+}
+.btn-primary::after, .btn-blue::after, .btn-emerald::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
+  background-size: 220% 100%; background-position: -180% 0; opacity: 0;
+}
+.btn-primary:hover::after, .btn-blue:hover::after, .btn-emerald:hover::after {
+  opacity: 1; animation: shimmer .85s ease forwards;
+}
+/* click ripple injected by js/cursor.js */
+.relay-ripple {
+  position: absolute; width: 120px; height: 120px; margin: -60px 0 0 -60px;
+  border-radius: 50%; background: currentColor; opacity: .35;
+  pointer-events: none; animation: rippleOut .55s ease-out forwards;
+}
+
+/* ---------- cards ---------- */
+.card {
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .25s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--blue) 35%, var(--border));
+  box-shadow: 0 18px 40px -26px color-mix(in srgb, var(--ink) 70%, transparent);
+}
+
+/* ---------- tickets ---------- */
+.ticket { position: relative; }
+.ticket::before {
+  content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px;
+  border-radius: 3px; background: var(--blue);
+  transform: scaleY(0); transform-origin: center;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1);
+}
+.ticket:hover::before, .ticket.selected::before { transform: scaleY(1); }
+.ticket:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -20px color-mix(in srgb, var(--ink) 80%, transparent); }
+.ticket:hover .ticket-title { color: var(--blue-deep); }
+.ticket .ticket-title { transition: color .18s ease; }
+
+/* ---------- chips, pills, avatars ---------- */
+.chip, .pill { transition: transform .18s ease, box-shadow .18s ease; }
+.ticket:hover .chip, .ticket:hover .pill { transform: translateY(-1px); }
+.avatar, .user-mini-avatar { transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease; }
+.avatar:hover, .user-mini-avatar:hover {
+  transform: scale(1.08) rotate(-4deg);
+  box-shadow: 0 0 0 4px var(--blue-soft);
+}
+
+/* ---------- auth screen ---------- */
+.auth-card { transition: box-shadow .3s ease, transform .3s ease; }
+.auth-card:hover { box-shadow: 0 26px 60px -34px color-mix(in srgb, var(--ink) 80%, transparent); }
+.authtabs button { position: relative; }
+.authtabs button:hover:not(.active) { color: var(--ink); background: color-mix(in srgb, var(--bg) 60%, transparent); }
+.authtabs button.active::after {
+  content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px;
+  border-radius: 2px; background: var(--orange);
+  animation: underlineIn .3s cubic-bezier(.2,.8,.2,1) both;
+}
+.demo-chip { transition: transform .18s ease, border-color .18s ease, color .18s ease, background .18s ease, box-shadow .18s ease; }
+.demo-chip:hover {
+  transform: translateY(-2px); background: var(--blue-soft);
+  box-shadow: 0 8px 16px -12px var(--blue-deep);
+}
+.demo-chip:active { transform: translateY(0) scale(.97); }
+.demo-chip[disabled]:hover { transform: none; box-shadow: none; }
+
+/* ---------- inputs ---------- */
+.field input, .field select, .field textarea,
+.filters-row input, .filters-row select {
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.field input:hover, .field select:hover, .field textarea:hover,
+.filters-row input:hover, .filters-row select:hover { border-color: color-mix(in srgb, var(--blue) 45%, var(--border)); }
+.field input:focus, .field select:focus, .field textarea:focus,
+.filters-row input:focus, .filters-row select:focus {
+  background: var(--bg); box-shadow: 0 0 0 3px var(--blue-soft); outline: none;
+}
+.field.has-error input, .field.has-error select { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-soft); }
+
+/* password reveal button */
+.pw-wrap { position: relative; }
+.pw-wrap input { padding-right: 62px !important; }
+.pw-toggle {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  border: none; background: transparent; color: var(--ink-soft);
+  font-size: 11.5px; font-weight: 600; padding: 6px 8px; border-radius: 7px;
+  transition: color .18s ease, background .18s ease;
+}
+.pw-toggle:hover { color: var(--blue-deep); background: var(--blue-soft); }
+
+/* ---------- stats + people rows ---------- */
+.stat-card { transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, background .25s ease; }
+.stat-card:hover {
+  transform: translateY(-4px); background: var(--bg);
+  box-shadow: 0 16px 34px -24px color-mix(in srgb, var(--ink) 80%, transparent);
+}
+.user-row { transition: background .18s ease, padding-left .18s ease; border-radius: 8px; }
+.user-row:hover { background: var(--bg-subtle); padding-left: 8px; }
+
+/* ---------- pulsing brand dot ---------- */
+.wordmark-dot { position: relative; animation: floatY 3.2s ease-in-out infinite; }
+.wordmark-dot::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 100%; height: 100%;
+  border-radius: 50%; border: 1.5px solid var(--orange);
+  animation: ringPulse 2.2s ease-out infinite;
+}
+
+/* ---------- respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .relay-cursor-dot, .relay-cursor-ring { display: none; }
+  body.relay-cursor, body.relay-cursor * { cursor: auto !important; }
+  .card:hover, .ticket:hover, .stat-card:hover,
+  .btn-primary:hover, .btn-blue:hover, .btn-emerald:hover, .demo-chip:hover { transform: none; }
+}
