@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relay — campus incident relay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div class="auth-wrap" id="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-word"><div class="dot"></div><span>Relay</span></div>
+
+    <div class="authtabs">
+      <button id="tab-login" class="active">Log in</button>
+      <button id="tab-signup">Sign up</button>
+    </div>
+
+    <div class="authform active" id="form-login">
+      <div class="field"><label for="li-email">Email</label><input type="email" id="li-email" placeholder="name@relay.edu"></div>
+      <div class="field"><label for="li-password">Password</label><div class="pw-wrap"><input type="password" id="li-password" placeholder="Enter your password" autocomplete="current-password"><button type="button" class="pw-toggle" data-pw="li-password">Show</button></div></div>
+      <div class="error-text" id="login-error">Check your email and password and try again.</div>
+      <button class="btn-primary" id="do-login">Log in</button>
+      <div class="demo-row">
+        <div class="label-full">Quick demo login</div>
+        <button class="demo-chip" data-demo="student@relay.edu">Student</button>
+        <button class="demo-chip" data-demo="hod.cs@relay.edu">HOD, CS</button>
+        <button class="demo-chip" data-demo="vp@relay.edu">Vice Principal</button>
+        <button class="demo-chip" data-demo="principal@relay.edu">Principal</button>
+        <button class="demo-chip" data-demo="admin@relay.edu">Admin</button>
+      </div>
+    </div>
+
+    <div class="authform" id="form-signup">
+      <div class="field"><label for="su-name">Full name</label><input type="text" id="su-name" placeholder="Aisha Khan"></div>
+      <div class="field"><label for="su-email">Email</label><input type="email" id="su-email" placeholder="name@relay.edu"></div>
+      <div class="field"><label for="su-password">Password</label><div class="pw-wrap"><input type="password" id="su-password" placeholder="At least 6 characters" autocomplete="new-password"><button type="button" class="pw-toggle" data-pw="su-password">Show</button></div></div>
+      <div class="field"><label for="su-role">I am a</label>
+        <select id="su-role">
+          <option value="student">Student</option>
+          <option value="hod">HOD</option>
+          <option value="vice_principal">Vice Principal</option>
+          <option value="principal">Principal</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="field" id="su-dept-field"><label for="su-department">Department</label>
+        <select id="su-department">
+          <option>Computer Science</option><option>Mechanical Engineering</option>
+          <option>Civil Engineering</option><option>Hostel & Facilities</option><option>Administration</option>
+        </select>
+      </div>
+      <div class="error-text" id="signup-error">Fill in every field, with a password of 6+ characters.</div>
+      <button class="btn-primary" id="do-signup">Create account</button>
+    </div>
+  </div>
+
+  <!-- MARKETING / INFO CONTENT -->
+  <div class="landing">
+    <section class="lsec">
+      <h2>What Relay is</h2>
+      <p>Relay is a campus incident relay. Anyone on campus — a student walking past a loose
+      stairwell railing, a warden noticing a gas smell near the mess kitchen — can file a report in
+      under a minute. Relay reads the urgency and the department, then puts that report directly on
+      the desk of the person who can actually act on it. No group chats, no forwarded emails, no
+      report quietly dying in an inbox.</p>
+    </section>
+
+    <section class="lsec">
+      <h2>How a report travels</h2>
+      <div class="lgrid">
+        <div class="lcard">
+          <span class="lstep">01</span>
+          <h3>Capture</h3>
+          <p>Snap a photo with the built-in camera or pick one from your gallery, add a short title,
+          a location and a category. Detail helps, but a title alone is enough to get moving.</p>
+        </div>
+        <div class="lcard">
+          <span class="lstep">02</span>
+          <h3>Route</h3>
+          <p>Urgency decides the path. Low and medium reports land with the department HOD. High
+          reports go to the Vice Principal and the HOD together. Critical reports reach the Principal
+          and Vice Principal at the same moment, so nothing waits on one person being free.</p>
+        </div>
+        <div class="lcard">
+          <span class="lstep">03</span>
+          <h3>Resolve</h3>
+          <p>The receiving desk acknowledges, moves the report into progress and finally marks it
+          resolved. Every step is stamped on a timeline the reporter can see, so "we're looking into
+          it" becomes something you can actually check.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lsec">
+      <h2>Who sees what</h2>
+      <p>Relay gives each role its own workspace instead of one crowded dashboard.</p>
+      <ul class="llist">
+        <li><strong>Students</strong> file reports and track their own history, with live status on
+        every ticket they raised.</li>
+        <li><strong>HODs</strong> get an ops board scoped to their department, sorted with the most
+        urgent report first.</li>
+        <li><strong>Vice Principal</strong> sees everything escalated as high or critical across all
+        departments.</li>
+        <li><strong>Principal</strong> sees the critical tier — the handful of things that genuinely
+        cannot wait until tomorrow.</li>
+        <li><strong>Admin</strong> gets the full portal: campus-wide statistics, search and filters
+        across every report, and the directory of registered accounts.</li>
+      </ul>
+    </section>
+
+    <section class="lsec">
+      <h2>Signing up</h2>
+      <p>Pick the role that matches your desk on the sign-up tab. Every role stays selectable,
+      including Admin — if a desk already has a holder, Relay simply notes who that is next to the
+      option rather than locking you out. Prefer to look around first? Use a quick demo login above:
+      every demo account uses the password <span class="mono">demo123</span>, and the Admin desk is
+      <span class="mono">admin@relay.edu</span>.</p>
+    </section>
+
+    <footer class="lfoot">Relay · campus incident relay · demo build</footer>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app-shell">
+<div class="shell">
+
+  <div class="topbar">
+    <div class="wordmark">
+      <div class="wordmark-dot"></div>
+      <div><span>Relay</span><small>campus incident relay</small></div>
+    </div>
+    <div class="whoami">
+      <div class="whoami-text" style="text-align:right;">
+        <div class="name" id="who-name"></div>
+        <div class="role" id="who-role"></div>
+      </div>
+      <div class="avatar" id="who-avatar"></div>
+      <button class="btn-ghost" id="do-logout">Log out</button>
+    </div>
+  </div>
+
+  <!-- STUDENT VIEW -->
+  <div id="view-student" class="view">
+    <div class="signal-strip" id="signal-strip">
+      <div class="signal-node on" id="sn-you"><div class="dot"></div><div class="label">You</div></div>
+      <div class="signal-line" id="sl-1"><div class="runner"></div></div>
+      <div class="signal-node" id="sn-t1"><div class="dot"></div><div class="label" id="sn-t1-label">Select urgency</div></div>
+      <div class="signal-line" id="sl-2" style="display:none;"><div class="runner"></div></div>
+      <div class="signal-node" id="sn-t2" style="display:none;"><div class="dot"></div><div class="label" id="sn-t2-label"></div></div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>File a report</h2>
+        <p class="sub">Photograph it, describe it, send it. Relay works out who needs to see it.</p>
+
+        <div class="field"><label for="f-title">What's the problem</label>
+          <input type="text" id="f-title" placeholder="Exposed wiring near the west stairwell">
+          <div class="error-text" id="err-title">Describe the problem in a few words.</div>
+        </div>
+
+        <div class="row2">
+          <div class="field"><label for="f-category">Category</label>
+            <select id="f-category">
+              <option value="infrastructure">Infrastructure</option><option value="safety">Safety</option>
+              <option value="academic">Academic</option><option value="hostel">Hostel</option>
+              <option value="it">IT</option><option value="sanitation">Sanitation</option>
+              <option value="discipline">Discipline</option><option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-department">Department</label>
+            <select id="f-department">
+              <option>Computer Science</option><option>Mechanical Engineering</option>
+              <option>Civil Engineering</option><option>Hostel & Facilities</option><option>Administration</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field"><label for="f-urgency">Urgency</label>
+            <select id="f-urgency">
+              <option value="low">Low</option><option value="medium" selected>Medium</option>
+              <option value="high">High</option><option value="critical">Critical</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-location">Location</label>
+            <input type="text" id="f-location" placeholder="Block C, 2nd floor">
+          </div>
+        </div>
+
+        <div class="field"><label for="f-desc">Details</label>
+          <textarea id="f-desc" placeholder="What you saw, when, and anything the authority should know before arriving."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Photo</label>
+          <div class="photofield">
+            <div class="photo-actions">
+              <button type="button" class="btn-ghost" id="open-camera">Use camera</button>
+              <button type="button" class="btn-ghost">Choose from gallery<input type="file" id="f-photo" accept="image/*"></button>
+            </div>
+            <div class="hint" id="photo-hint">No photo added yet</div>
+            <img id="photo-preview" class="photopreview">
+            <div class="camera-box" id="camera-box">
+              <video id="camera-video" autoplay playsinline muted></video>
+              <div class="camera-actions">
+                <button type="button" class="btn-primary" id="capture-photo" style="width:auto;flex:1;">Capture</button>
+                <button type="button" class="btn-ghost" id="cancel-camera">Cancel</button>
+              </div>
+              <div class="error-text" id="camera-error">Couldn't reach the camera. Use gallery upload instead.</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="submit-report">Send to Relay</button>
+      </div>
+
+      <div class="card">
+        <h2>My reports</h2>
+        <p class="sub">Live status, from your side of the screen.</p>
+        <div id="student-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTHORITY VIEW -->
+  <div id="view-authority" class="view">
+    <div class="grid">
+      <div class="card">
+        <h2>Ops board</h2>
+        <p class="sub">Routed to you, most urgent first.</p>
+        <div id="ops-list"></div>
+      </div>
+
+      <div class="card" id="detail-card">
+        <h2>Ticket detail</h2>
+        <div id="detail-empty" class="empty">Select a ticket from the ops board.</div>
+        <div id="detail-body" style="display:none;">
+          <img id="detail-photo" class="detail-photo">
+          <div class="ticket-code" id="detail-code"></div>
+          <div class="ticket-title" id="detail-title" style="font-size:16px;"></div>
+          <div class="ticket-chips" id="detail-chips" style="margin:8px 0 14px;"></div>
+          <div class="detail-desc" id="detail-desc"></div>
+          <div class="section-label">Escalation path</div>
+          <ul class="route-list" id="detail-route"></ul>
+          <div class="section-label">Timeline</div>
+          <ul class="timeline" id="detail-timeline"></ul>
+          <div class="actionrow" id="detail-actions"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN VIEW -->
+  <div id="view-admin" class="view">
+    <div class="stats-grid" id="admin-stats"></div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <h2>Filter reports</h2>
+      <p class="sub">Search across every department and desk — the admin sees it all.</p>
+      <div class="filters-row">
+        <input type="text" id="admin-search" placeholder="Search by title or ticket code">
+        <select id="admin-filter-status">
+          <option value="">All statuses</option>
+          <option value="reported">Reported</option>
+          <option value="acknowledged">Acknowledged</option>
+          <option value="in_progress">In progress</option>
+          <option value="resolved">Resolved</option>
+        </select>
+        <select id="admin-filter-urgency">
+          <option value="">All urgencies</option>
+          <option value="low">Low</option><option value="medium">Medium</option>
+          <option value="high">High</option><option value="critical">Critical</option>
+        </select>
+        <select id="admin-filter-department">
+          <option value="">All departments</option>
+          <option>Computer Science</option><option>Mechanical Engineering</option>
+          <option>Civil Engineering</option><option>Hostel & Facilities</option><option>Administration</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>All reports</h2>
+        <p class="sub" id="admin-count-sub">Every ticket, most urgent first.</p>
+        <div id="admin-list"></div>
+      </div>
+
+      <div class="card" id="admin-detail-card">
+        <h2>Ticket detail</h2>
+        <div id="admin-detail-empty" class="empty">Select a ticket from the list.</div>
+        <div id="admin-detail-body" style="display:none;">
+          <img id="admin-detail-photo" class="detail-photo">
+          <div class="ticket-code" id="admin-detail-code"></div>
+          <div class="ticket-title" id="admin-detail-title" style="font-size:16px;"></div>
+          <div class="ticket-chips" id="admin-detail-chips" style="margin:8px 0 14px;"></div>
+          <div class="detail-desc" id="admin-detail-desc"></div>
+          <div class="section-label">Escalation path</div>
+          <ul class="route-list" id="admin-detail-route"></ul>
+          <div class="section-label">Timeline</div>
+          <ul class="timeline" id="admin-detail-timeline"></ul>
+          <div class="actionrow" id="admin-detail-actions"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h2>People</h2>
+      <p class="sub">Everyone with a Relay account.</p>
+      <div id="admin-users"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="tdot"></div>
+  <div><div class="ttitle" id="toast-title"></div><div class="tsub" id="toast-sub"></div></div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="js/cursor.js"></script>
+</body>
+</html>
